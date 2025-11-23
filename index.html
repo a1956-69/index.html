@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Radio Centella - Portal Bingo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Librería para exportar a Excel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); /* tu fondo gris azulado */
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  border: 12px solid #e94560; /* marco rojo */
+  box-sizing: border-box;
+  min-height: 100vh; /* asegura que el fondo cubra toda la pantalla */
+}
+
+ header {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .logo {
+      max-width: 120px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    #titulo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e94560;
+      margin: 10px 0;
+    }
+
+    #reloj {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    nav {
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #0074D9;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .seccion {
+      display: none;
+      margin-top: 20px;
+      padding: 0 12px;
+    }
+
+    .redes {
+      margin: 10px 0;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .redes a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 6px 10px;
+      border: 1px solid #fff;
+      border-radius: 6px;
+    }
+    .redes a:hover {
+      color: #000;
+      background-color: #ff851b;
+      border-color: #ff851b;
+    }
+
+    audio {
+      margin-top: 6px;
+    }
+    .nota {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    /* Noticias como botones */
+    .news-buttons {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .news-btn {
+      background: #e94560;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .news-btn:hover {
+      background: #ff851b;
+    }
+
+    /* Tabla de cartón */
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      background: #16213e;
+     box-shadow: 0 4px 12px rgba(255,255,255,0.2);
+border: 2px solid #444; /* borde gris oscuro */
+
+    th, td {
+      border: 1px solid #fff;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+    }
+    th {
+      background-color: #ff851b;
+      color: #000;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    td {
+      font-weight: bold;
+      color: #fff;
+    }
+td {
+  font-weight: bold;
+  color: #fff;
+background-color: #1f2a40; /* gris azulado más vivo */
+
+  background-color: #1f2a40; /* gris con matiz */
+}
+
+    .free {
+      background-color: #e94560;
+    }
+    .logoCarton {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+background-image: repeating-linear-gradient(
+  45deg,
+  #e94560,
+  #e94560 10px,
+  #d63f55 10px,
+  #d63f55 20px
+);
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: rgba(0,0,0,0.3);
+      margin-top: 20px;
+      font-size: 12px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo-radio.jpg" alt="Logo Radio" class="logo" />
+    <div id="titulo">Radio Centella - Portal Bingo</div>
+    <div id="reloj"></div>
+    <audio controls>
+      <source src="https://stream.zeno.fm/935k1mxfyxhvv" type="audio/mpeg" />
+      Tu navegador no soporta el reproductor de audio.
+    </audio>
+    <div class="nota">Si no reproduce automáticamente, presiona el botón de play.</div>
+    <div class="redes">
+      <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </header>
+
+  <nav>
+    <button id="btnNoticias">Noticias</button>
+    <button id="btnCartones">Cartones</button>
+  </nav>
+
+  <!-- Noticias -->
+  <div id="seccionNoticias" class="seccion">
+    <h2>Noticias</h2>
+    <div class="news-buttons">
+      <button class="news-btn" onclick="window.open('https://cnnespanol.cnn.com','_blank')">📰 CNN en Español</button>
+      <button class="news-btn" onclick="window.open('https://www.vtv.gob.ve','_blank')">📺 VTV</button>
+      <button class="news-btn" onclick="window.open('https://www.televen.com','_blank')">📺 Televen</button>
+      <button class="news-btn" onclick="window.open('https://2001online.com','_blank')">📰 Diario 2001</button>
+      <button class="news-btn" onclick="window.open('https://globovision.com','_blank')">📺 Globovisión</button>
+      <button class="news-btn" onclick="window.open('https://www.ultimasnoticias.com.ve','_blank')">📰 Últimas Noticias</button>
+    </div>
+  </div>
+
+  <!-- Cartones -->
+  <div id="seccionCartones" class="seccion" style="display:block;">
+    <h2>Cartones de Bingo</h2>
+    <div id="contenedorCartones"></div>
+    <button onclick="mostrarCarton()">Generar 1 cartón</button>
+    <button onclick="mostrarVariosCartones(5)">Mostrar 5 cartones</button>
+    <button onclick="generarYExportar()">Generar 1500 cartones y exportar Excel</button>
+  </div>
+
+  <footer>
+    Portal desarrollado por Radio Centella © 2025
+  </footer>
+
+  <script>
+    // Reloj
+    function actualizarReloj() {
+      const ahora = new Date();
+      const horas = String(ahora.getHours()).padStart(2, '0');
+      const minutos = String(ahora.getMinutes()).padStart(2, '0');
+      const segundos = String(ahora.getSeconds()).padStart(2, '0');
+      document.getElementById("reloj").textContent = `${horas}:${minutos}:${segundos}`;
+    }
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+
+    // Navegación
+    function mostrarSeccion(seccionId) {
+      document.getElementById("seccionNoticias").style.display = "none";
+      document.getElementById("seccionCartones").style.display = "none";
+      document.getElementById(seccionId).style.display = "block";
+    }
+    document.getElementById("btnNoticias").addEventListener("click", () => mostrarSeccion("seccionNoticias"));
+    document.getElementById("btnCartones").addEventListener("click", () => mostrarSeccion("seccionCartones"));
+
+    // Generador de cartones
+    function generarCarton(numero) {
+      const rangos = { B:[1,15], I:[16,30], N:[31,45], G:[46,60], O:[61,75] };
+      const columnas = {};
+      for (const letra of ["B","I","N","G","O"]) {
+        const [min,max] = rangos[letra];
+        const nums = new Set();
+        while (nums.size < 5) {
+          nums.add(Math.floor(Math.random()*(max-min+1))+min);
+        }
+        columnas[letra] = Array.from(nums);
+      }
+      // Casilla central: logo
+      columnas["N"][2] = "LOGO";
+      return { numero, carton: columnas };
+    }
+
+    // Renderizar un cartón en HTML
+    function renderCarton(c) {
+      let html = "<table><tr>";
+      for (let letra of ["B","I","N","G","O"]) {
+        html += `<th>${letra}</th>`;
+      }
+      html += "</tr>";
+      for (let fila = 0; fila < 5; fila++) {
+        html += "<tr>";
+        for (let letra of ["B","I","N","G","O"]) {
+          const valor = c.carton[letra][fila];
+          if (valor === "LOGO") {
+            html += `<td class="free"><img src="logo-radio.jpg" alt="Logo" class="logoCarton"></td>`;
+          } else {
+            html += `<td>${valor}</td>`;
+          }
+        }
+        html += "</tr>";
+      }
+      html += "</table>";
+      return html;
+    }
+
+    // Mostrar 1 cartón
+    function mostrarCarton() {
+      const c = generarCarton("0001");
+      document.getElementById("contenedorCartones").innerHTML = renderCarton(c);
+    }
+
+    // Mostrar varios cartones
+    function mostrarVariosCartones(cantidad) {
+      let html = "";
+      for (let i = 1; i <= cantidad; i++) {
+        const numero = String(i).padStart(4, '0');
+        const c = generarCarton(numero);
+        html += renderCarton(c);
+      }
+      document.getElementById("contenedorCartones").innerHTML = html;
+    }
+
+    // Generar múltiples cartones
+    function generarMultiplesCartones(cantidad) {
+      const cartones = [];
+      for (let i = 1; i <= cantidad; i++) {
+        const numero = String(i).padStart(4, '0'); // 0001 a 1500
+        cartones.push(generarCarton(numero));
+      }
+      return cartones;
+    }
+
+    // Exportar 1500 cartones a Excel
+    function generarYExportar() {
+      const cartones = generarMultiplesCartones(1500);
+      const datos = [];
+
+      cartones.forEach(c => {
+        datos.push([`Cartón ${c.numero}`]);
+        datos.push(["B","I","N","G","O"]);
+        for (let fila = 0; fila < 5; fila++) {
+          datos.push([
+            c.carton.B[fila],
+            c.carton.I[fila],
+            c.carton.N[fila],
+            c.carton.G[fila],
+            c.carton.O[fila]
+          ]);
+        }
+        datos.push([]); // línea en blanco entre cartones
+      });
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(datos);
+      XLSX.utils.book_append_sheet(wb, ws, "Cartones");
+      XLSX.writeFile(wb, "cartones_bingo_1500.xlsx");
+    }
+
+    // Mostrar un cartón al cargar
+    window.onload = mostrarCarton;
+  </script>
+</body>
+</html>
